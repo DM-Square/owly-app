@@ -2,26 +2,29 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="icon" type="image/png" href="src/img/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Owly - Find your Booook</title>
   </head>
   <body>
     <div class="searchContainer">
-      <h1>Owly - Find your Booook</h1>
-      <p>Welcome to Owly, your ultimate book search companion!</p>
+      <img src="src/img/owly.png" alt="Owly Logo" class="logo" />
+      <h1>Benvenuto su Owly!</h1>
+      <p>Ciao! Sono Owly, il tuo assistente per trovare libri!</p>
       <input
         type="text"
         id="searchInput"
         name="search"
-        placeholder="Enter a book genre..."
+        placeholder="Inserisci un genere di libri..."
       />
       <p id="searchAlert" class="searchAlert hidden"></p>
-      <button id="searchButton">Search</button>
+      <button id="searchButton">Cerca</button>
       <p id="searchResultsTitle" class="hidden"></p>
       <div id="searchResults"></div>
     </div>
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/js/main.js"></script>
+    <footer>
+      <p class="footer-text">© 2026 Owly. Tutti i diritti riservati.</p>
+    </footer>
   </body>
 </html>

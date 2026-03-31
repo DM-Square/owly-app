@@ -1,10 +1,10 @@
 :root {
-  --color-primary-500: #3d8fd4;
-  --color-primary-700: #1a6bb0;
-  --color-accent-400: #fac750;
-  --color-surface: #fafaf9;
-  --color-muted-bg: #f2f0eb;
-  --color-border: #c8c5bc;
+  --color-primary-500: #713d20;
+  --color-primary-700: #59331b;
+  --color-accent-400: #a77648;
+  --color-surface: #fff5e8;
+  --color-desc-bg: #f2f0eb;
+  --color-border: #847b61;
   --color-text-primary: #1e1d1b;
   --color-text-secondary: #6b6962;
 }
@@ -14,8 +14,40 @@ body {
   padding: 0;
   font-family: sans-serif;
   box-sizing: border-box;
-  background-color: #fafaf9;
+  background-color: #fff5e8;
   color: #1e1d1b;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.logo {
+  max-height: 30vh;
+  margin: 0 auto;
+  transition: transform 0.3s ease;
+}
+.logo:hover {
+  transform: scale(1.05);
+}
+.logo:active {
+  transform: scale(0.95);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  transition: all 0.3s ease;
+}
+h1:hover,
+h2:hover,
+h3:hover,
+h4:hover,
+h5:hover,
+h6:hover {
+  text-shadow: 0 0 3px rgba(89, 51, 27, 0.5);
 }
 
 * {
@@ -24,6 +56,8 @@ body {
 
 .hidden {
   display: none;
+  height: 0;
+  transition: all 0.3s ease;
 }
 
 .searchContainer {
@@ -31,15 +65,17 @@ body {
   flex-direction: column;
   align-self: center;
   justify-content: center;
+  flex: 1;
+  width: 100%;
 }
 .searchContainer h1 {
   text-align: center;
-  margin-top: 20px;
-  color: #3d8fd4;
+  margin: 0 1rem;
+  color: #713d20;
 }
 .searchContainer p {
   text-align: center;
-  margin-top: 10px;
+  margin: 1rem;
   color: #6b6962;
 }
 
@@ -50,17 +86,17 @@ input {
   transition: box-shadow 0.3s ease;
   display: block;
   background-color: #f2f0eb;
-  margin: 20px auto;
+  margin: 0 auto 1rem auto;
   width: 80%;
   max-width: 400px;
-  border: 1px solid #c8c5bc;
+  border: 1px solid #847b61;
 }
 input:hover {
-  box-shadow: 0 0 8px #3d8fd4;
+  box-shadow: 0 0 8px #713d20;
 }
 input:focus {
   outline: none;
-  border: 2px solid #3d8fd4;
+  border: 2px solid #713d20;
 }
 
 button {
@@ -71,16 +107,16 @@ button {
   border-radius: 5px;
   transition: all 0.3s ease;
   display: block;
-  margin: 20px auto;
-  background-color: #3d8fd4;
-  color: #fafaf9;
+  margin: 0.5rem auto;
+  background-color: #713d20;
+  color: #fff5e8;
 }
 button:hover {
-  background-color: #fac750;
-  color: #1e1d1b;
+  background-color: #a77648;
+  color: #fff5e8;
 }
 button:active {
-  background-color: #1a6bb0;
+  background-color: #59331b;
 }
 
 .bookItem {
@@ -94,7 +130,7 @@ button:active {
   margin: 0.5rem auto;
   width: 70%;
   background-color: #f2f0eb;
-  border: 1px solid #c8c5bc;
+  border: 1px solid #847b61;
   position: relative;
 }
 .bookItem:hover {
@@ -110,14 +146,14 @@ button:active {
   margin: 0 0 0.5rem 0;
   text-align: left;
   text-transform: uppercase;
-  color: #3d8fd4;
+  color: #713d20;
   font-weight: 600;
 }
 .bookItem .bookAuthor {
   display: block;
   font-size: clamp(0.9rem, 1.1vw, 1.2rem);
   text-align: left;
-  margin: 0;
+  margin: 0 1rem 0 0;
   color: #6b6962;
 }
 .bookItem .bookInfo {
@@ -133,15 +169,15 @@ button:active {
   padding: 0.75rem;
   font-size: clamp(0.9rem, 1.1vw, 1.2rem);
   font-weight: bold;
-  background-color: #3d8fd4;
-  color: #fafaf9;
+  background-color: #713d20;
+  color: #fff5e8;
 }
 .bookItem .bookAction:hover {
-  background-color: #fac750;
-  color: #1e1d1b;
+  background-color: #a77648;
+  color: #fff5e8;
 }
 .bookItem .bookAction:active {
-  background-color: #1a6bb0;
+  background-color: #59331b;
 }
 
 .bookDetails {
@@ -154,25 +190,26 @@ button:active {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #c8c5bc;
+  border: 1px solid #847b61;
 }
 .bookDetails .backButton {
   margin-bottom: 1rem;
   padding: 0.5rem 1rem;
   font-size: clamp(0.9rem, 1.1vw, 1.2rem);
-  background-color: #3d8fd4;
-  color: #fafaf9;
+  background-color: #713d20;
+  color: #fff5e8;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 .bookDetails .backButton:hover {
-  background-color: #fac750;
-  color: #1e1d1b;
+  background-color: #a77648;
+  color: #fff5e8;
 }
 .bookDetails .backButton:active {
-  background-color: #1a6bb0;
+  background-color: #59331b;
+  transform: translateY(2px);
 }
 .bookDetails img {
   max-width: 150px;
@@ -185,7 +222,7 @@ button:active {
   margin: 0.5rem auto;
   text-align: center;
   text-transform: uppercase;
-  color: #3d8fd4;
+  color: #713d20;
   font-weight: 600;
 }
 .bookDetails .bookDescriptionTitle {
@@ -193,7 +230,8 @@ button:active {
   font-size: 1.25rem;
   font-weight: bold;
   text-align: center;
-  color: #1e1d1b;
+  color: #713d20;
+  transition: all 0.3s ease;
 }
 .bookDetails .bookDescription {
   margin-top: 1rem;
@@ -209,15 +247,35 @@ button:active {
   justify-content: center;
 }
 
-#searchAlert {
+#searchResultsTitle {
   text-align: center;
   margin-top: 1rem;
+  font-size: clamp(1.25rem, 1.5vw, 2rem);
+  color: #713d20;
+}
+
+#searchAlert {
+  text-align: center;
+  margin-top: 0;
   font-size: 0.75rem;
-  color: red;
+  color: #e74c3c;
   opacity: 1;
-  transition: opacity 1s ease;
+  transition: all 0.3s ease;
 }
 #searchAlert.hidden {
-  opacity: 0;
   pointer-events: none;
+  opacity: 0;
+}
+
+footer {
+  width: 100%;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-top: 1px solid #847b61;
+  background-color: #f2f0eb;
+  text-align: center;
+}
+footer .footer-text {
+  font-size: 0.75rem;
+  color: #6b6962;
 }
