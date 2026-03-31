@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import emitter from "./eventEmitter";
+import emitter from "../eventEmitter";
 
 describe("EventEmitter", () => {
   beforeEach(() => {

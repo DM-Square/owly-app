@@ -1,16 +1,15 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
+import { fetchBooksBySubject, fetchBookDetails } from "../api";
+import emitter from "../eventEmitter";
 
 // Mocking di eventEmitter per testare le interazioni
-vi.mock("./eventEmitter", () => ({
+vi.mock("../eventEmitter", () => ({
   default: {
     emit: vi.fn(),
     on: vi.fn(),
     observers: {},
   },
 }));
-
-import { fetchBooksBySubject, fetchBookDetails } from "./api";
-import emitter from "./eventEmitter";
 
 // Mocking del fetch globale
 global.fetch = vi.fn();
@@ -28,21 +27,21 @@ describe("API Functions", () => {
       json: async () => ({ works: mockBooks }),
     });
 
-    await fetchBooksBySubject("fiction");
+    await fetchBooksBySubject("fantasy");
 
     expect(fetch).toHaveBeenCalledWith(
-      "https://openlibrary.org/subjects/fiction.json",
+      "https://openlibrary.org/subjects/fantasy.json",
     );
     expect(emitter.emit).toHaveBeenCalledWith("booksLoaded", {
       books: mockBooks,
-      subject: "fiction",
+      subject: "fantasy",
     });
   });
 
   it("should emit fetchError on API failure for fetchBooksBySubject", async () => {
     fetch.mockRejectedValueOnce(new Error("Network error"));
 
-    await fetchBooksBySubject("fiction");
+    await fetchBooksBySubject("fantasy");
 
     expect(emitter.emit).toHaveBeenCalledWith(
       "fetchError",

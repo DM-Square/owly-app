@@ -4,7 +4,7 @@ import "../styles/style.scss";
 
 let currentBooks = []; // Salva la lista corrente di libri per la back navigation
 
-// --- Cache DOM ---
+// Cache DOM
 
 const DOM = {
   bookList: document.getElementById("searchResults"),
@@ -14,7 +14,7 @@ const DOM = {
   searchInput: document.getElementById("searchInput"),
 };
 
-// --- Funzioni helper ---
+// Funzioni helper
 
 function hideAlerts() {
   DOM.searchAlert.classList.add("hidden");
@@ -33,7 +33,7 @@ function truncateDescription(description, maxLength = 1000) {
   return description.slice(0, maxLength) + "...";
 }
 
-// --- Observers ---
+// Observers
 
 emitter.on("loadingStart", () => {
   DOM.bookList.innerHTML = "<p>Sto cercando...</p>";
@@ -79,7 +79,7 @@ emitter.on("bookDetailsLoaded", (bookDetails) => {
   DOM.bookList.appendChild(createBookDetails(bookDetails));
 });
 
-// --- Helper DOM ---
+// Helper DOM
 
 function createBookItem(book) {
   const bookItem = document.createElement("div");
@@ -118,7 +118,7 @@ function createBookDetails(bookDetails) {
   return detailsContainer;
 }
 
-// --- Event Listener ---
+// Event Listener
 
 DOM.searchButton.addEventListener("click", (event) => {
   event.preventDefault();
