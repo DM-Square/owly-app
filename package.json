@@ -4,13 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "optimize-images": "node scripts/optimize-images.js",
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run optimize-images && vite build",
     "preview": "vite preview",
     "test": "vitest"
   },
   "devDependencies": {
     "sass-embedded": "^1.98.0",
+    "sharp": "^0.34.5",
     "vite": "^8.0.1",
     "vitest": "^4.1.2"
   },

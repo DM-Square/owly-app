@@ -1,6 +1,6 @@
 import { fetchBooksBySubject, fetchBookDetails } from "./api.js";
 import emitter from "./eventEmitter.js";
-import "../styles/style.scss";
+import "../scss/style.scss";
 
 let currentBooks = []; // Salva la lista corrente di libri per la back navigation
 

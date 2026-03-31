@@ -42,6 +42,8 @@ export async function fetchBookDetails(workKey) {
     emitter.emit("bookDetailsLoaded", data);
   } catch (error) {
     console.error(error);
-    emitter.emit("bookDetailsLoaded", null);
+    emitter.emit("fetchError", {
+      errorMessage: "Impossibile recuperare i dettagli del libro. Riprova.",
+    });
   }
 }

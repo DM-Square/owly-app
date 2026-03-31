@@ -67,11 +67,16 @@ describe("API Functions", () => {
     expect(emitter.emit).toHaveBeenCalledWith("bookDetailsLoaded", mockDetails);
   });
 
-  it("should emit bookDetailsLoaded with null on API failure for fetchBookDetails", async () => {
+  it("should emit fetchError on API failure for fetchBookDetails", async () => {
     fetch.mockRejectedValueOnce(new Error("Network error"));
 
     await fetchBookDetails("/works/invalid");
 
-    expect(emitter.emit).toHaveBeenCalledWith("bookDetailsLoaded", null);
+    expect(emitter.emit).toHaveBeenCalledWith(
+      "fetchError",
+      expect.objectContaining({
+        errorMessage: expect.any(String),
+      }),
+    );
   });
 });
