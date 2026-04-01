@@ -12,6 +12,19 @@ Owly è un'applicazione web che ti aiuta a scoprire libri in base al genere che 
 
 ---
 
+## 📋 Indice
+
+- [✨ Funzionalità](#-funzionalità)
+- [🛠️ Stack tecnologico](#️-stack-tecnologico)
+- [🏗️ Architettura](#️-architettura)
+- [🌐 API utilizzata](#-api-utilizzata)
+- [🚀 Installazione e avvio](#-installazione-e-avvio)
+- [📁 Struttura del progetto](#-struttura-del-progetto)
+- [🌐 Demo](#-demo)
+- [📄 Licenza](#-licenza)
+
+---
+
 ## ✨ Funzionalità
 
 - 🔍 Ricerca libri per genere tramite un'interfaccia semplice e intuitiva
