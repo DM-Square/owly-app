@@ -20,7 +20,7 @@ Owly è un'applicazione web che ti aiuta a scoprire libri in base al genere che 
 - [🌐 API utilizzata](#-api-utilizzata)
 - [🚀 Installazione e avvio](#-installazione-e-avvio)
 - [📁 Struttura del progetto](#-struttura-del-progetto)
-- [🌐 Demo](#-demo)
+- [🖥️ Demo](#-demo)
 - [📄 Licenza](#-licenza)
 
 ---
@@ -149,7 +149,7 @@ owly-app/
 
 ---
 
-## 🌐 Demo
+## 🖥️ Demo
 
 L'app è disponibile su GitHub Pages:
 👉 [https://dm-square.github.io/owly-app](https://dm-square.github.io/owly-app)
