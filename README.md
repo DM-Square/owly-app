@@ -20,7 +20,7 @@ Owly è un'applicazione web che ti aiuta a scoprire libri in base al genere che 
 - [🌐 API utilizzata](#-api-utilizzata)
 - [🚀 Installazione e avvio](#-installazione-e-avvio)
 - [📁 Struttura del progetto](#-struttura-del-progetto)
-- [🖥️ Demo](#-demo)
+- [💻 Demo](#-demo)
 - [📄 Licenza](#-licenza)
 
 ---
@@ -34,6 +34,131 @@ Owly è un'applicazione web che ti aiuta a scoprire libri in base al genere che 
 - 📱 Design responsive ottimizzato per mobile e desktop
 - 🖼️ Ottimizzazione automatica delle immagini in fase di build
 
+---
+
+## 🛠️ Stack tecnologico
+
+| Tecnologia | Ruolo |
+|---|---|
+| **JavaScript (ESM)** | Logica applicativa |
+| **SCSS** | Styling modulare |
+| **Vite** | Bundler e dev server |
+| **Vitest** | Testing |
+| **Sharp** | Ottimizzazione immagini |
+| **gh-pages** | Deploy su GitHub Pages |
+| **Open Library API** | Sorgente dati per libri e copertine |
+
+---
+
+## 🏗️ Architettura
+
+Il progetto segue un'architettura **event-driven** basata su un `EventEmitter` custom. I moduli comunicano tra loro tramite eventi, mantenendo una separazione netta tra logica di fetch, stato e rendering.
+
+```
+src/js/
+├── main.js          # Entry point: DOM, listener, observer degli eventi
+├── api.js           # Chiamate a Open Library API
+└── eventEmitter.js  # Bus degli eventi custom
+src/scss/
+└── style.scss       # Stili globali (importato da main.js)
+```
+
+**Flusso principale:**
+
+```
+Input utente
+    → fetchBooksBySubject()             [api.js]
+    → emitter.emit("loadingStart")
+    → emitter.emit("booksLoaded")       [main.js aggiorna il DOM]
+    → click su un libro
+    → fetchBookDetails()                [api.js]
+    → emitter.emit("bookDetailsLoaded") [main.js mostra i dettagli]
+```
+
+---
+
+## 🌐 API utilizzata
+
+Owly si appoggia alla **[Open Library API](https://openlibrary.org/developers/api)**, gratuita e senza necessità di autenticazione.
+
+| Endpoint | Utilizzo |
+|---|---|
+| `/subjects/{genere}.json` | Recupero libri per genere |
+| `/works/{id}.json` | Dettagli di un singolo libro |
+| `covers.openlibrary.org/b/id/{id}-M.jpg` | Copertine dei libri |
+
+---
+
+## 🚀 Installazione e avvio
+
+### Prerequisiti
+
+- [Node.js](https://nodejs.org/) (versione LTS consigliata)
+- npm
+
+### Setup
+
+```bash
+# Clona il repository
+git clone https://github.com/DM-Square/owly-app.git
+cd owly-app
+
+# Installa le dipendenze
+npm install
+```
+
+### Comandi disponibili
+
+```bash
+# Avvia il server di sviluppo
+npm run dev
+
+# Esegui i test
+npm test
+
+# Build di produzione (include ottimizzazione immagini)
+npm run build
+
+# Anteprima della build
+npm run preview
+
+# Deploy su GitHub Pages
+npm run deploy
+```
+
+---
+
+## 📁 Struttura del progetto
+
+```
+owly-app/
+├── public/              # Asset statici (favicon, immagini logo)
+├── scripts/
+│   └── optimize-images.js  # Ottimizzazione immagini con Sharp
+├── src/
+│   ├── js/
+│   │   ├── main.js         # Entry point: DOM cache, eventi, rendering
+│   │   ├── api.js          # Fetch verso Open Library API
+│   │   └── eventEmitter.js # Event bus custom
+│   └── scss/
+│       └── style.scss      # Stili dell'applicazione
+├── index.html           # HTML principale
+├── vite.config.js       # Configurazione Vite
+└── vitest.config.js     # Configurazione Vitest
+```
+
+---
+
+## 💻 Demo
+
+L'app è disponibile su GitHub Pages:
+👉 [https://dm-square.github.io/owly-app](https://dm-square.github.io/owly-app)
+
+---
+
+## 📄 Licenza
+
+© 2026 Owly — Tutti i diritti riservati.
 ---
 
 ## 🛠️ Stack tecnologico
