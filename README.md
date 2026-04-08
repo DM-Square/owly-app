@@ -21,6 +21,7 @@ Owly è un'applicazione web che ti aiuta a scoprire libri in base al genere che 
 - [🌐 API utilizzata](#-api-utilizzata)
 - [🚀 Installazione e avvio](#-installazione-e-avvio)
 - [📁 Struttura del progetto](#-struttura-del-progetto)
+- [🧪 Testing](#-testing)
 - [💻 Demo](#-demo)
 - [📄 Licenza](#-licenza)
 
@@ -39,14 +40,14 @@ Owly è un'applicazione web che ti aiuta a scoprire libri in base al genere che 
 
 ## 🛠️ Stack tecnologico
 
-| Tecnologia | Ruolo |
-|---|---|
-| **JavaScript (ESM)** | Logica applicativa |
-| **SCSS** | Styling modulare |
-| **Vite** | Bundler e dev server |
-| **Vitest** | Testing |
-| **Sharp** | Ottimizzazione immagini |
-| **gh-pages** | Deploy su GitHub Pages |
+| Tecnologia           | Ruolo                               |
+| -------------------- | ----------------------------------- |
+| **JavaScript (ESM)** | Logica applicativa                  |
+| **SCSS**             | Styling modulare                    |
+| **Vite**             | Bundler e dev server                |
+| **Vitest**           | Testing                             |
+| **Sharp**            | Ottimizzazione immagini             |
+| **gh-pages**         | Deploy su GitHub Pages              |
 | **Open Library API** | Sorgente dati per libri e copertine |
 
 ---
@@ -57,24 +58,38 @@ Il progetto segue un'architettura **event-driven** basata su un `EventEmitter` c
 
 ```
 src/js/
-├── main.js          # Entry point: DOM, listener, observer degli eventi
-├── api.js           # Chiamate a Open Library API
-└── eventEmitter.js  # Bus degli eventi custom
-src/scss/
-└── style.scss       # Stili globali (importato da main.js)
+├── api.js                  # API pura: fetch dati, nessuna dipendenza
+├── eventEmitter.js         # Singleton + Observer pattern
+├── searchController.js     # Orchestrazione ricerca + async/await
+├── stateManager.js         # Gestione stato app (SRP)
+├── UIRenderer.js           # Rendering UI + fieldMapper
+├── main.js                 # Entry point: orchestrator centrale (Facade)
+└── __tests__/
+    ├── api.test.js         # 4 test API pure functions
+    ├── eventEmitter.test.js # 4 test Singleton + Observer
+    ├── stateManager.test.js # 3 test state management
+    └── UIRenderer.test.js   # 4 test rendering (edge cases)
 ```
 
-**Flusso principale:**
+**Flusso dati:**
 
 ```
-Input utente
-    → fetchBooksBySubject()             [api.js]
-    → emitter.emit("loadingStart")
-    → emitter.emit("booksLoaded")       [main.js aggiorna il DOM]
-    → click su un libro
-    → fetchBookDetails()                [api.js]
-    → emitter.emit("bookDetailsLoaded") [main.js mostra i dettagli]
+Input utente (SearchController)
+    ↓
+fetchBooksBySubject() [API pura, restituisce dati]
+    ↓
+searchController emette "booksLoaded"
+    ↓
+main.js ascolta e coordina (setCurrentBooks, renderBooks, ecc.)
 ```
+
+### Design Patterns:
+
+- **Singleton**: EventEmitter (istanza única globale)
+- **Observer**: Event-driven communication tra moduli
+- **MVC**: Model (StateManager) → View (UIRenderer) ← Controller (SearchController)
+- **Facade**: main.js orchestra la complessità
+- **Module**: ESM modules con scope privato
 
 ---
 
@@ -82,11 +97,11 @@ Input utente
 
 Owly si appoggia alla **[Open Library API](https://openlibrary.org/developers/api)**, gratuita e senza necessità di autenticazione.
 
-| Endpoint | Utilizzo |
-|---|---|
-| `/subjects/{genere}.json` | Recupero libri per genere |
-| `/works/{id}.json` | Dettagli di un singolo libro |
-| `covers.openlibrary.org/b/id/{id}-M.jpg` | Copertine dei libri |
+| Endpoint                                 | Utilizzo                     |
+| ---------------------------------------- | ---------------------------- |
+| `/subjects/{genere}.json`                | Recupero libri per genere    |
+| `/works/{id}.json`                       | Dettagli di un singolo libro |
+| `covers.openlibrary.org/b/id/{id}-M.jpg` | Copertine dei libri          |
 
 ---
 
@@ -133,20 +148,55 @@ npm run deploy
 
 ```
 owly-app/
-├── public/              # Asset statici (favicon, immagini logo)
+├── public/                          # Asset statici
 ├── scripts/
-│   └── optimize-images.js  # Ottimizzazione immagini con Sharp
+│   └── optimize-images.js           # Ottimizzazione immagini
 ├── src/
 │   ├── js/
-│   │   ├── main.js         # Entry point: DOM cache, eventi, rendering
-│   │   ├── api.js          # Fetch verso Open Library API
-│   │   └── eventEmitter.js # Event bus custom
+│   │   ├── __tests__/               # Test suite (15 test totali)
+│   │   │   ├── api.test.js          # Test API pure functions
+│   │   │   ├── eventEmitter.test.js # Test Singleton + Observer
+│   │   │   ├── stateManager.test.js # Test state management
+│   │   │   └── UIRenderer.test.js   # Test rendering
+│   │   ├── api.js                   # API pura (DIP)
+│   │   ├── eventEmitter.js          # Singleton pattern
+│   │   ├── searchController.js      # Orchestrazione ricerca (SRP)
+│   │   ├── stateManager.js          # Gestione stato (SRP)
+│   │   ├── UIRenderer.js            # Rendering UI (SRP + OCP)
+│   │   └── main.js                  # Entry point + orchestrator
 │   └── scss/
-│       └── style.scss      # Stili dell'applicazione
-├── index.html           # HTML principale
-├── vite.config.js       # Configurazione Vite
-└── vitest.config.js     # Configurazione Vitest
+│       ├── _mixins.scss             # Mixin CSS riutilizzabili
+│       ├── _variables.scss          # Variabili di design
+│       └── style.scss               # Stili principali
+├── index.html                       # HTML principale
+├── vite.config.js                   # Configurazione Vite
+├── vitest.config.js                 # Configurazione Vitest
+└── package.json                     # Dipendenze e script
 ```
+
+### Statistiche codice:
+
+- **JS modulare**: 399 linee (6 moduli)
+- **Test**: 15 test automatizzati (Vitest)
+- **SCSS**: Modulare con variabili e mixin
+
+---
+
+## 🧪 Testing
+
+Il progetto include **15 test automatizzati** con **Vitest**:
+
+```bash
+npm test        # Esegui tutti i test
+npm test:ui     # Interfaccia visuale Vitest
+```
+
+### Copertura test:
+
+- **API** (4 test): Funzioni pure, errori, cache
+- **EventEmitter** (4 test): Singleton, Observer pattern
+- **StateManager** (3 test): Gestione e preservazione dello stato
+- **UIRenderer** (4 test): Rendering con edge cases (dati mancanti)
 
 ---
 
