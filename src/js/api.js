@@ -1,49 +1,37 @@
-import emitter from "./eventEmitter.js";
+// api - Modulo per fetch dei dati dall'API di OpenLibrary
 
 const apiUrl = `https://openlibrary.org/subjects`;
-const bookDetailsCache = new Map(); // Cache per i dettagli dei libri
+const bookDetailsCache = new Map();
+
+// Fetch helper
+
+async function fetchJson(url) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: Errore nel recupero da ${url}`);
+  }
+  return response.json();
+}
 
 export async function fetchBooksBySubject(subject) {
-  try {
-    emitter.emit("loadingStart", subject);
-    const response = await fetch(`${apiUrl}/${subject}.json`);
-    if (!response.ok) {
-      throw new Error(
-        `Errore nel recupero dei libri per il genere: ${subject}.`,
-      );
-    }
-    const data = await response.json();
-    emitter.emit("booksLoaded", { books: data.works, subject });
-  } catch (error) {
-    console.error(error);
-    emitter.emit("fetchError", {
-      errorMessage:
-        "Impossibile recuperare i libri. Controlla la tua connessione e riprova.",
-    });
-  }
+  // Fetch dati
+  const data = await fetchJson(`${apiUrl}/${subject}.json`);
+
+  return {
+    books: data.works,
+    subject: subject,
+  };
 }
 
 export async function fetchBookDetails(workKey) {
-  try {
-    // Controlla la cache prima di effettuare la chiamata API
-    if (bookDetailsCache.has(workKey)) {
-      emitter.emit("bookDetailsLoaded", bookDetailsCache.get(workKey));
-      return;
-    }
-
-    const response = await fetch(`https://openlibrary.org${workKey}.json`);
-    if (!response.ok) {
-      throw new Error(
-        `Errore nel recupero dei dettagli del libro per la chiave: ${workKey}.`,
-      );
-    }
-    const data = await response.json();
-    bookDetailsCache.set(workKey, data);
-    emitter.emit("bookDetailsLoaded", data);
-  } catch (error) {
-    console.error(error);
-    emitter.emit("fetchError", {
-      errorMessage: "Impossibile recuperare i dettagli del libro. Riprova.",
-    });
+  // Controllo cache
+  if (bookDetailsCache.has(workKey)) {
+    return bookDetailsCache.get(workKey);
   }
+
+  // Se non in cache: fetch, salva e restituisci
+  const data = await fetchJson(`https://openlibrary.org${workKey}.json`);
+  bookDetailsCache.set(workKey, data);
+
+  return data;
 }
